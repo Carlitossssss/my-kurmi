@@ -7,10 +7,6 @@ import ProductCard from "./ProductCard";
 export default function Products(props) {
 
   const [products, setProducts] = useState([])
-  //SI LA HO HAY CONECCION A LA API QUE MUESTRE UN MENSAJE DE ERROR
-
-
-
 
   useEffect(() => {
     fetch(urlApi + '/getProducts')
@@ -18,6 +14,8 @@ export default function Products(props) {
     .then(data => setProducts(data))
     .catch(error => console.error('Error ->', error))
   }, [])
+
+
 
   return (
     <div className="grid grid-cols-1 gap-4 mx-2 mr-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">

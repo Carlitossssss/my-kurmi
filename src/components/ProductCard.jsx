@@ -3,6 +3,10 @@ import Link from "next/link";
 
 export default function ProductCard({ name, _id, description, price }) {
 
+  //hacer una condicional por rol si es admin o cliente
+  //si es admin que aparezca solo la impormacion del producto mas un boton de editar y eliminar pasadole el id del
+  //si es cliente que se muestre la imfuormacion actual
+
     return (
       <div className="flex flex-col w-full mx-2 mt-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 md:max-w-sm md:w-5/6">
         <Image
