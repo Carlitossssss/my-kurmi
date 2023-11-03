@@ -2,6 +2,7 @@
 import '../app/global.css';
 import { useState } from 'react';
 import Link from 'next/link';
+import Logout from './logout';
 
 const NavAdmin = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,8 +27,8 @@ const NavAdmin = () => {
                         </Link>
                     </div>
                     <div className="hidden md:flex items-center space-x-1">
-                        <Link href="/features" >
-                            <span className="py-5 px-3 text-gray-700 hover:text-gray-900">admin</span>
+                        <Link href="/admin/list_producer_home" >
+                            <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</span>
                         </Link>
                         <Link href="/pricing" >
                             <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Pricing</span>
@@ -36,7 +37,7 @@ const NavAdmin = () => {
                 </div>
 
                 <div className="hidden md:flex items-center space-x-1">
-                    <Link href="/signup" >
+                    <Link href="/client/home_client" >
                         <span className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">Signup</span>
                     </Link>
                 </div>
@@ -53,12 +54,15 @@ const NavAdmin = () => {
         </div>
 
         <div className={`mobile-menu ${isMobileMenuOpen ? '' : 'hidden'} md:hidden`}>
-            <Link href="/features">
-                <span className="block py-2 px-4 text-sm hover:bg-gray-200">admin</span>
+            <Link href="/admin/list_producer_home">
+                <span className="block py-2 px-4 text-sm hover:bg-gray-200">home</span>
             </Link>
             <Link href="/pricing">
                 <span className="block py-2 px-4 text-sm hover:bg-gray-200">Pricing</span>
             </Link>
+            <Link href="/client/home_client" >
+                        <span className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">Signup</span>
+                    </Link>
         </div>
     </nav>
   );
