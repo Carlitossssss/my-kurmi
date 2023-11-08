@@ -2,7 +2,7 @@
 import '../app/global.css';
 import { useState } from 'react';
 import Link from 'next/link';
-import Logout from './logout';
+import Logout from './Logout';
 
 const NavAdmin = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

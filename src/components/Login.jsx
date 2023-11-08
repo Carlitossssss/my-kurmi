@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import '@/app/global.css';
 import urlApi from '@/config/globals_api';
+import { getProductCart } from '@/config/addCart'
+
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -31,6 +33,7 @@ export default function Login() {
 
         //redirecionar segun al tipo de rol que ocupa el usuario
         if (data.rol == 'client') {
+            getProductCart()
             window.location.href = '/client/home_client';
         } else if (data.rol == 'producer') {
             window.location.href = '/producer/home_producer';
@@ -39,6 +42,7 @@ export default function Login() {
         } else {
             alert('Usuario o contraseña incorrectos');
         }
+
 
     };
 

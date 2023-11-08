@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import urlApi from '@/config/globals_api'
 import { useState, useEffect } from 'react'
+import { addArrProductsCart, updateStock } from '@/config/addCart'
 
 export default function ProductDetail(props) {
 
