@@ -7,7 +7,7 @@ export default function Orders_P() {
     const [orders, setOrders] = useState([])
 
     useEffect(() => {
-        fetch(urlApi + '/getOrders', {
+        fetch(urlApi + '/getOrdersByClient', {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }

@@ -38,6 +38,7 @@ const NavClient = () => {
                             <Link href="/client/cart" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Carrito</span>
                             </Link>
+                            
                         </div>
                     </div>
 

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import urlApi from '@/config/globals_api'
 import { useState, useEffect } from 'react'
-import { addArrProductsCart, updateStock } from '@/config/addCart'
+import { addArrProductsCart } from '@/config/addCart'
 
 export default function ProductDetail(props) {
 
@@ -64,7 +64,6 @@ export default function ProductDetail(props) {
                 <div className="flex space-x-3 p-5 md:justify-self-center">
                     <button onClick={() => {
                         addArrProductsCart(product, quantity)
-                        updateStock(product._id, quantity)
                         setBoolPopUp(!popUp)
                     }}
                         className="bg-lime-800 p-2 rounded-lg font-bold hover:bg-lime-700">Confirmar</button>

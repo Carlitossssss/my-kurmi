@@ -7,6 +7,7 @@ export default function CartProduct(props) {
     
     const arr = arr_prod_card
 
+
     return (
         <div className="table w-full rounded-lg shadow-2xl shadow-lime-900/50">
             <div className="table-header-group">
