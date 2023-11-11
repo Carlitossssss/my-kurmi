@@ -9,7 +9,11 @@ export default function Profile_producer(props) {
     const [producer, setProducer] = useState({})
     const id = props._id
     useEffect(() => {
-        fetch(urlApi + '/getProducer/' + id)
+        fetch(urlApi + '/getProducerById/' + id,{
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        })
             .then(res => res.json())
             .then(data => setProducer(data))
             .catch(error => console.error('Error ->', error))
