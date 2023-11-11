@@ -4,7 +4,7 @@ export const about_us = () => {
   return (
   <body>
 <head>
-  <title>HTML Elements Reference</title>
+  <title>Sobre nosotros</title>
 </head>
 
 <div class="h-14 bg-gradient-to-r from-white to-green-500">
