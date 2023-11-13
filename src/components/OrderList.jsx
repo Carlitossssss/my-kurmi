@@ -9,13 +9,14 @@ const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [fullOrder, setFullOrder] = useState(null);
   
   async function openModal(order) {
     setSelectedOrder(order);
     setIsModalOpen(true);
 
     try {
-      const response = await fetch(urlApi + "/getOrderById" + order.id, {
+      const response = await fetch(urlApi + "/getOrderByFullId/" + order.id, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -23,7 +24,7 @@ const OrderList = () => {
         },
       });
       const data = await response.json();
-      setSelectedOrder(data);
+      setFullOrder(data);
     } catch (error) {
       console.log(error);
     }
@@ -114,7 +115,7 @@ const OrderList = () => {
           <p className="text-blue-600">Estado: {getStatusText(order.status)}</p>
         </div>
       ))}
-      {selectedOrder && (
+      {fullOrder && (
         <Transition appear show={isModalOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -136,17 +137,11 @@ const OrderList = () => {
                   as="h3"
                   className="text-lg md:text-xl font-medium leading-6 text-gray-900"
                 >
-                  {selectedOrder.name}
+                  {fullOrder && fullOrder.client ? `Order ${fullOrder.client.name}` : "Loading..."}
                 </Dialog.Title>
 
                 <div className="mt-2">
-                  <p className="text-gray-600">{selectedOrder.details}</p>
-                  <p className="mt-2 font-medium text-gray-700">
-                    Total: {selectedOrder.total}
-                  </p>
-                  <p className="mt-2 text-blue-600">
-                    Estado: {getStatusText(selectedOrder.status)}
-                  </p>
+                  {/* Aquí puedes agregar más campos de la orden y del cliente como se muestra arriba */}
                 </div>
 
                 <div className="mt-4">
