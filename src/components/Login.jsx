@@ -4,6 +4,7 @@ import Link from 'next/link';
 import '@/app/global.css';
 import urlApi from '@/config/globals_api';
 
+
 export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -39,6 +40,7 @@ export default function Login() {
         } else {
             alert('Usuario o contraseña incorrectos');
         }
+
 
     };
 
