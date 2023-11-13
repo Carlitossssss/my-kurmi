@@ -1,12 +1,11 @@
+import DetailsProducer from "@/components/DetailsProducer"
 
-import ProductDetail from "@/components/DetailsProduct"
-export default function DetailsProductPage({ params }) {
-
-  const {id} = params
+export default function DetailsProducerPage({ params }) {
+  const { id } = params;
 
   return (
-    <div className="mb-8">
-      <ProductDetail _id={id}/>
-    </div>
-  )
+    <div>
+      <DetailsProducer _id={id} />
+    </div> 
+  );
 }
