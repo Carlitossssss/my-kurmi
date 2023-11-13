@@ -2,26 +2,20 @@
 import '../app/global.css';
 import Link from 'next/link';
 import urlApi from '@/config/globals_api';
-import { useRouter } from 'next/router';
-// ...
+
 
 const Logout = () => {
-    const router = useRouter();
 
     const logout = async () => {
         const response = await fetch(urlApi + '/logout', {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
         });
         const data = await response.json();
         if (response.ok) {
             // Limpia el token del almacenamiento local si el logout fue exitoso
             localStorage.removeItem('token');
             localStorage.removeItem('role');
-            // Redirige al usuario a la página 'home_client'
-            router.push('/client/home_client');
+            window.location.href = "/client/home_client";
         } else {
             console.error(data.message);
         }
@@ -37,7 +31,10 @@ const Logout = () => {
             </button>
         </div>
     );
-}
+};
+
+
 
 export default Logout;
+
 

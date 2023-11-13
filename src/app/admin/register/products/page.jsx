@@ -1,7 +1,9 @@
+
+import RegisterProduct from "@/components/RegisterProduct"
 export default function RegisterProductPage() {
     return (
         <div>
-        <h1>Register Product Page</h1>
+            <RegisterProduct />
         </div>
     )
 }

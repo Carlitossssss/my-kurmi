@@ -24,8 +24,6 @@ const ListProducer = () => {
         getProducer();
     }, []);
 
-    console.log(producer); // para verificar que producer no es null o undefined
-    console.log(producer.id); 
 
     return (
       <div className="flex justify-center bg-transparent mb-16">

@@ -37,7 +37,7 @@ const DetailsProducer = ({_id}) => {
 
 
   return (
-    <div className="flex flex-col justify-center  space-y-10 w-full mx-auto mb-16">
+    <div className="flex  flex-col justify-center  space-y-10 w-full mx-auto mb-16">
       <div className="flex flex-col items-center mt-5 m-5">
         <div className="bg-lime-200 w-full md:w-4/6 border-t border-x border-lime-500 rounded-lg shadow-2xl shadow-lime-900/50 md:flex md:h-auto">
           <div className="flex flex-col items-center p-2 md:flex-row md:flex-grow">
@@ -74,10 +74,10 @@ const DetailsProducer = ({_id}) => {
           Productos
         </span>
       </div>
-      <div className="products grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="m-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 border-l">
         {listProductId.map((product) => (
           <div key={product._id}>
-            <div className="product mb-4 w-full mx-2 mt-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 md:max-w-sm md:w-full">
+            <div className="product  w-full  mt-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 md:max-w-sm md:w-full">
               <Image
                 className="rounded-t-lg w-full border-4 border-transparent"
                 src="/produc.jpg"
@@ -108,7 +108,6 @@ const DetailsProducer = ({_id}) => {
                 <p className="mb-1 font-normal text-blue-600 dark:text-gray-400">
                   Listo para la venta: {product.readyForSale ? "Sí" : "No"}
                 </p>
-                {/* agregar 2 Linck de editar y eliminar */}
                 <div className="flex justify-between items-center ">
                   <Link
                     className="m-2 "
