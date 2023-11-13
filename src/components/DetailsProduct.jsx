@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import urlApi from '@/config/globals_api'
 import { useState, useEffect } from 'react'
+import { addArrProductsCart } from '@/config/addCart'
 
 export default function ProductDetail(props) {
 
@@ -48,7 +49,7 @@ export default function ProductDetail(props) {
                     </div>
                     <div className="text-white flex space-x-3 p-5 md:justify-self-center">
                         <button onClick={() => setBoolPopUp(!popUp)} className={`${popUp ? 'disabled' : ''} bg-lime-800 p-2 rounded-lg font-bold hover:bg-lime-700`}>Agregar al Carrito</button>
-                        <Link href={`/productores_profile/${product.producer}`} className="bg-lime-800 p-2 rounded-lg font-bold hover:bg-lime-700">info Productor</Link>
+                        <Link href={`/client/productor_profile/${product.producer}`} className="bg-lime-800 p-2 rounded-lg font-bold hover:bg-lime-700">info Productor</Link>
                     </div>
                 </div>
             </div>
@@ -63,7 +64,6 @@ export default function ProductDetail(props) {
                 <div className="flex space-x-3 p-5 md:justify-self-center">
                     <button onClick={() => {
                         addArrProductsCart(product, quantity)
-                        updateStock(product._id, quantity)
                         setBoolPopUp(!popUp)
                     }}
                         className="bg-lime-800 p-2 rounded-lg font-bold hover:bg-lime-700">Confirmar</button>
