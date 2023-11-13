@@ -1,43 +1,62 @@
 "use client";
 import "../app/global.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import urlApi from "@/config/globals_api";
 
 const OrderList = () => {
-  const [orders, setOrders] = useState([
-    {
-      name: "Pedido 1",
-      details: "Detalles del pedido 1",
-      total: 100,
-      status: "En proceso",
-    },
-    {
-      name: "Pedido 1",
-      details: "Detalles del pedido 1",
-      total: 100,
-      status: "En proceso",
-    },
-    {
-      name: "Pedido 1",
-      details: "Detalles del pedido 1",
-      total: 100,
-      status: "En proceso",
-    },
-    {
-      name: "Pedido 1",
-      details: "Detalles del pedido 1",
-      total: 100,
-      status: "En proceso",
-    },
-    // ... más pedidos ...
-  ]);
+  const [orders, setOrders] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const openModal = (order) => {
+  
+  async function openModal(order) {
     setSelectedOrder(order);
     setIsModalOpen(true);
-  };
+
+    try {
+      const response = await fetch(urlApi + "/getOrderById" + order.id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      const data = await response.json();
+      setSelectedOrder(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch(urlApi + "/getOrders", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        let data = await response.json();
+
+        // Filtra las órdenes por el estado 2
+        data = data.filter(order => order.status === 2 || order.status === 3 || order.status === 4);
+
+        setOrders(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  
+  
+
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -52,13 +71,39 @@ const OrderList = () => {
     // Aquí puedes agregar el código para hacer una pregunta
     closeModal();
   };
+  function getColorClass(status) {
+    switch (status) {
+      case 2:
+        return "bg-yellow-300";
+      case 3:
+        return "bg-green-300";
+      case 4:
+        return "bg-red-300";
+      default:
+        return "";
+    }
+  }
+  function getStatusText(status) {
+    switch (status) {
+      case 2:
+        return "Pendiente";
+      case 3:
+        return "Aceptado";
+      case 4:
+        return "Cancelado";
+      default:
+        return "";
+    }
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 mb-16">
       {orders.map((order, index) => (
         <div
           key={index}
-          className="grid grid-cols-1 gap-2 border-2 border-gray-300 p-4 mb-4 rounded-lg shadow-md cursor-pointer transition-transform duration-500 ease-in-out transform hover:scale-105"
+          className={`grid grid-cols-1 gap-2 border-2 border-gray-300 p-4 mb-4 rounded-lg shadow-md cursor-pointer transition-transform duration-500 ease-in-out transform hover:scale-105 ${getColorClass(
+            order.status
+          )}`}
           onClick={() => openModal(order)}
         >
           <h2 className="text-xl md:text-2xl font-semibold text-gray-700">
@@ -66,9 +111,8 @@ const OrderList = () => {
           </h2>
           <p className="text-gray-600">{order.details}</p>
           <p className="font-medium text-gray-700">Total: {order.total}</p>
-          <p className="text-blue-600">Estado: {order.status}</p>
+          <p className="text-blue-600">Estado: {getStatusText(order.status)}</p>
         </div>
-        
       ))}
       {selectedOrder && (
         <Transition appear show={isModalOpen} as={Fragment}>
@@ -101,7 +145,7 @@ const OrderList = () => {
                     Total: {selectedOrder.total}
                   </p>
                   <p className="mt-2 text-blue-600">
-                    Estado: {selectedOrder.status}
+                    Estado: {getStatusText(selectedOrder.status)}
                   </p>
                 </div>
 
