@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 import { FaUser } from 'react-icons/fa';
-import Logout from './logout';
+import Logout from './Logout';
 
 const NavAdmin = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
