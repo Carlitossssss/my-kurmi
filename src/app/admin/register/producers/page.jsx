@@ -1,8 +1,10 @@
 
+import RegisterProducer from "@/components/RegisterProducer"
+
 export default function RegisterProducerPage() {
     return (
         <div>
-        <h1>Register Producer Page</h1>
+            <RegisterProducer />
         </div>
     )
 }

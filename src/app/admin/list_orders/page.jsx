@@ -1,8 +1,9 @@
 
+import OrderList from "@/components/OrderList"
 export default function ListOrderPage() {
     return (
         <div>
-        <h1>List Order Page</h1>
+            <OrderList/>
         </div>
     )
 }
