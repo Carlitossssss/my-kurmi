@@ -73,7 +73,7 @@ const NavClient = () => {
                     ) : (
                         <div className="hidden md:flex items-center space-x-1">
                             <Link
-                                href="/admin/profile"
+                                href="/client/profile"
                                 className="m-4 text-blue-500 hover:text-blue-700"
                             >
                                 <FaUser />
