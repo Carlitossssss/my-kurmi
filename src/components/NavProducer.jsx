@@ -28,7 +28,7 @@ const NavProducer = () => {
                             </Link>
                         </div>
                         <div className="hidden md:flex items-center space-x-1">
-                            <Link href="/producer/dashboard" >
+                            <Link href="/producer/home_producer" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</span>
                             </Link>
                             <Link href="/producer/pending_orders" >
@@ -59,7 +59,7 @@ const NavProducer = () => {
             </div>
 
             <div className={`mobile-menu ${isMobileMenuOpen ? '' : 'hidden'} md:hidden p-4 bg-white`}>
-                <Link href="/features">
+                <Link href="/producer/home_producer">
                     <span className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900">Home</span>
                 </Link>
                 <Link href="/producer/pending_orders">
