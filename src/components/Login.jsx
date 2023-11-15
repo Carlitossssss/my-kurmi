@@ -61,8 +61,8 @@ export default function Login() {
             
             </div>
             <div className="mt-10 text-center flex justify-center items-center flex-row">
-                <Link href="/auth/register_client">
-                    <span className="text-gray-500 hover:text-gray-900">Forgot your password?</span>
+                <Link href="/auth/forgot_password">
+                    <span className="text-gray-500 hover:text-gray-900">Olvidaste tu Contraseña?</span>
                 </Link>
             </div>
         </div>

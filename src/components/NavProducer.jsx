@@ -33,14 +33,11 @@ const NavProducer = () => {
                             <Link href="/producer/pending_orders" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Ventas</span>
                             </Link>
-                            <Logout />
                         </div>
                     </div>
 
                     <div className="hidden md:flex items-center space-x-1">
-                        <Link href="/signup" >
-                            <span className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">Signup</span>
-                        </Link>
+                        <Logout />
                     </div>
 
                     <div className="md:hidden flex items-center">
