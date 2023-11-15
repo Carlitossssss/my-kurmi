@@ -4,38 +4,54 @@ import Link from "next/link";
 import urlApi from "@/config/globals_api";
 import Image from "next/image";
 
-const DetailsProducer = ({_id}) => {
-    const id = _id;
-    const [producer, setProducer] = useState({});
-    const [listProductId, setlistProductId] = useState([]);
+const DetailsProducer = ({ _id }) => {
+  const id = _id;
+  const [producer, setProducer] = useState({});
+  const [listProductId, setlistProductId] = useState([]);
 
-    useEffect(() => {
-        const getProducer = async () => {
-            const response = await fetch(urlApi + "/getProducerById/" + id, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            });
-            const producer = await response.json();
-            setProducer(producer);
-        };
-        const getlistProductId = async () => {
-            const response = await fetch(
-              urlApi + "/getProductsByProducer/" + id,
-              {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-              }
-            );
-            const listProductId = await response.json();
-            setlistProductId(listProductId);
-        };
-        getProducer();
-        getlistProductId();
-    }, [id]);
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
+  useEffect(() => {
+    const auth = () => {
+      if (token && role === "admin") {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    if (!auth()) {
+      window.history.back();
+      return;
+    }
 
+    const getProducer = async () => {
+      const response = await fetch(urlApi + "/getProducerById/" + id, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const producer = await response.json();
+      setProducer(producer);
+    };
+    const getlistProductId = async () => {
+      const response = await fetch(urlApi + "/getProductsByProducer/" + id, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const listProductId = await response.json();
+      setlistProductId(listProductId);
+    };
+
+    getProducer();
+    getlistProductId();
+  }, [id, role, token]);
+
+  if (!Array.isArray(listProductId)) {
+    window.location.href = "/not-found";
+    return;
+  }
   return (
     <div className="flex  flex-col justify-center  space-y-10 w-full mx-auto mb-16">
       <div className="flex flex-col items-center mt-5 m-5">

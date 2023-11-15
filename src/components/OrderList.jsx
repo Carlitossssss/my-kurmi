@@ -9,7 +9,10 @@ const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  //const [fullOrder, setFullOrder] = useState(null);
+  const [token, setToken] = useState(null);
+  const [role, setRole] = useState(null);
+
+
 
   
   async function openModal(order) {
@@ -29,11 +32,27 @@ const OrderList = () => {
       setSelectedOrder(data);
     } catch (error) {
       console.log(error);
+      setHasError(true);
     }
   }
 
 
   useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    setRole(localStorage.getItem("role"));
+
+    const auth = () => {
+      if (token && role === "admin") {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    if (!auth()) {
+      window.history.back();
+      return; // Detiene la ejecución de las funciones siguientes
+    }
+
     const fetchOrders = async () => {
       try {
         const response = await fetch(urlApi + "/getOrders", {
@@ -51,11 +70,18 @@ const OrderList = () => {
         setOrders(data);
       } catch (error) {
         console.log(error);
+        setHasError(true);
       }
     };
 
     fetchOrders();
-  }, []);
+  }, [role, token]);
+
+  if (!Array.isArray(orders)) {
+    window.location.href = "/not-found";
+    return;
+  }
+
 
   
   
@@ -87,7 +113,7 @@ const OrderList = () => {
       }
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error('Error:', error); 
     });
 
     closeModal();
@@ -150,6 +176,7 @@ const OrderList = () => {
         return "";
     }
   }
+  
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 mb-16">

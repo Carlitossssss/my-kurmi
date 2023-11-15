@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { animated, useSpring } from 'react-spring';
+import "../../src/app/global.css"
 
 export default function SplashScreen() {
     const [isMounted, setMounted] = useState(false);
@@ -24,7 +25,7 @@ export default function SplashScreen() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
             <animated.div style={animation} className="flex flex-col items-center justify-center">
-                <h1 className="text-4xl font-bold text-gray-800">KURMI</h1>
+                <h1 className="text-6xl font-extrabold text-gray-800">KURMI</h1>
             </animated.div>
         </div>
         

@@ -10,7 +10,25 @@ const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
 
+  const [token, setToken] = useState(null);
+  const [role, setRole] = useState(null);
+
   useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    setRole(localStorage.getItem("role"));
+
+    const auth = () => {
+      if (token && (role === "admin" || role === "producer" || role === "client")) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    if (!auth()) {
+      window.history.back();
+      return; // Detiene la ejecución de las funciones siguientes
+    }
+
     const getUser = async () => {
       const res = await fetch(`${urlApi}/getProfile`, {
         headers: {
@@ -22,7 +40,12 @@ const Profile = () => {
       setLoading(false);
     };
     getUser();
-  }, []);
+  }, [role, token]);
+
+  if (!Array.isArray(user)) {
+    window.location.href = "/not-found";
+    return;
+  }
 
   if (loading) {
     return (

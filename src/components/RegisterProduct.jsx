@@ -22,7 +22,28 @@ const RegisterProduct = () => {
   const [isProducerModalOpen, setIsProducerModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
+  const [token, setToken] = useState(null);
+  const [role, setRole] = useState(null);
+
   let producerId;
+
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+    setRole(localStorage.getItem("role"));
+
+    const auth = () => {
+      if (token && role === "admin") {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    if (!auth()) {
+      window.history.back();
+      return; // Detiene la ejecución de las funciones siguientes
+    }
+  }, [token, role]);
+
 
   
 

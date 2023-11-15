@@ -6,11 +6,31 @@ import urlApi from '@/config/globals_api';
 const ListProducer = () => {
     const [producer, setProducer] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [token, setToken] = useState(null);
+    const [role, setRole] = useState(null);
 
   
 
 
     useEffect(() => {
+        setToken(localStorage.getItem('token'));
+        setRole(localStorage.getItem('role'));
+
+        const auth = () => {
+            if (token && role === 'admin') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if (!auth()) {
+            window.history.back();
+            return; // Detiene la ejecución de las funciones siguientes
+        }
+
+        
+
+
         const getProducer = async () => {
             const response = await fetch(urlApi + '/getProducer', {
                 headers: {
@@ -22,7 +42,11 @@ const ListProducer = () => {
             setLoading(false);
         };
         getProducer();
-    }, []);
+    }, [role, token]);
+    if (!Array.isArray(producer)) {
+    window.location.href = "/not-found";
+    return;
+}
 
 
     return (

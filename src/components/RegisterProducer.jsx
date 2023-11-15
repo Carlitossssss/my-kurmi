@@ -25,6 +25,28 @@ const RegisterProducer = () => {
     const [province, setProvince] = useState('');
     const [address, setAddress] = useState('');
 
+    const [token, setToken] = useState(null);
+    const [role, setRole] = useState(null);
+
+    useEffect(() => {
+      setToken(localStorage.getItem("token"));
+      setRole(localStorage.getItem("role"));
+
+      const auth = () => {
+        if (token && role === "admin") {
+          return true;
+        } else {
+          return false;
+        }
+      };
+      if (!auth()) {
+        window.history.back();
+        return; // Detiene la ejecución de las funciones siguientes
+      }
+    }, [token, role]);
+
+  
+
 
     const position = [-17.7833, -63.1667];
     const [markerPosition, setMarkerPosition] = useState(null);
