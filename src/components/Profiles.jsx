@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import urlApi from "@/config/globals_api";
 import Image from "next/image";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -10,11 +12,7 @@ const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPassword, setIsPassword] = useState(false);
 
-
   useEffect(() => {
-
-    
-
     const getUser = async () => {
       const res = await fetch(`${urlApi}/getProfile`, {
         headers: {
@@ -28,7 +26,35 @@ const Profile = () => {
     getUser();
   }, []);
 
-  
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+
+    const increment = event.target.elements.ganancias.value;
+
+    const response = await fetch(`${urlApi}/updateRate`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({ increment }),
+    });
+
+    if (response.ok) {
+      toast.success("¡Actualización exitosa!", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      setIsOpen(false);
+    } else {
+      const data = await response.json();
+      if (!data.status.ok) {
+        // Aquí puedes agregar la lógica para mostrar el error
+        toast.error("Hubo un error en la actualización", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -92,83 +118,93 @@ const Profile = () => {
               Email: <span className="font-normal">{user.email}</span>
             </p>
             <div className="flex justify-center m-4">
-                <button
-                    onClick={() => setIsPassword(true)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                >
-                    Cambiar contraseña
-                </button>
-                {isPassword && (
-                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-4 rounded">
-                            <h2 className="mb-4 text-lg font-semibold">Modificar contraseña</h2>
-                            <form
-                                onSubmit={(event) => {
-                                    event.preventDefault();
-                                    // Aquí puedes agregar la lógica para aplicar los cambios
-                                    setIsPassword(false);
-                                }}
-                            >
-                                <label className="block mb-2 text-sm font-bold" htmlFor="currentPassword">
-                                    Contraseña actual
-                                </label>
-                                <input
-                                    className="w-full px-3 py-2 mb-4 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                    id="currentPassword"
-                                    type="password"
-                                    required
-                                />
+              <button
+                onClick={() => setIsPassword(true)}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Cambiar contraseña
+              </button>
+              {isPassword && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+                  <div className="bg-white p-4 rounded">
+                    <h2 className="mb-4 text-lg font-semibold">
+                      Modificar contraseña
+                    </h2>
+                    <form
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        // Aquí puedes agregar la lógica para aplicar los cambios
+                        setIsPassword(false);
+                      }}
+                    >
+                      <label
+                        className="block mb-2 text-sm font-bold"
+                        htmlFor="currentPassword"
+                      >
+                        Contraseña actual
+                      </label>
+                      <input
+                        className="w-full px-3 py-2 mb-4 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        id="currentPassword"
+                        type="password"
+                        required
+                      />
 
-                                <label className="block mb-2 text-sm font-bold" htmlFor="newPassword">
-                                    Nueva contraseña
-                                </label>
-                                <input
-                                    className="w-full px-3 py-2 mb-4 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                    id="newPassword"
-                                    type="password"
-                                    required
-                                />
+                      <label
+                        className="block mb-2 text-sm font-bold"
+                        htmlFor="newPassword"
+                      >
+                        Nueva contraseña
+                      </label>
+                      <input
+                        className="w-full px-3 py-2 mb-4 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        id="newPassword"
+                        type="password"
+                        required
+                      />
 
-                                <label className="block mb-2 text-sm font-bold" htmlFor="confirmPassword">
-                                    Confirmar nueva contraseña
-                                </label>
-                                <input
-                                    className="w-full px-3 py-2 mb-4 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                    id="confirmPassword"
-                                    type="password"
-                                    required
-                                />
+                      <label
+                        className="block mb-2 text-sm font-bold"
+                        htmlFor="confirmPassword"
+                      >
+                        Confirmar nueva contraseña
+                      </label>
+                      <input
+                        className="w-full px-3 py-2 mb-4 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        id="confirmPassword"
+                        type="password"
+                        required
+                      />
 
-                                <button
-                                    type="submit"
-                                    className="w-full px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
-                                >
-                                    Aplicar
-                                </button>
-                            </form>
+                      <button
+                        type="submit"
+                        className="w-full px-4 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-700 focus:outline-none focus:shadow-outline"
+                      >
+                        Aplicar
+                      </button>
+                    </form>
 
-                            <button
-                                onClick={() => setIsPassword(false)}
-                                className="w-full px-4 py-2 mt-4 font-bold text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none focus:shadow-outline"
-                            >
-                                Cancelar
-                            </button>
-                        </div>
-                    </div>
-                )}
+                    <button
+                      onClick={() => setIsPassword(false)}
+                      className="w-full px-4 py-2 mt-4 font-bold text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none focus:shadow-outline"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
-
           </div>
         </div>
         <div>
-        <div className="flex justify-center">
+          <div className="flex justify-center">
             <button
-                onClick={() => setIsOpen(true)}
-                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => setIsOpen(true)}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             >
-                Modificar porcentaje de ganancias
+              Modificar porcentaje de ganancias
             </button>
-        </div>
+          </div>
 
           {isOpen && (
             <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
@@ -179,7 +215,7 @@ const Profile = () => {
                 <form
                   onSubmit={(event) => {
                     event.preventDefault();
-                    // Aquí puedes agregar la lógica para aplicar los cambios
+                    handleUpdate(event);
                     setIsOpen(false);
                   }}
                 >
@@ -189,6 +225,7 @@ const Profile = () => {
                   >
                     Porcentaje de ganancias
                   </label>
+
                   <input
                     className="w-full px-3 py-2 mb-4 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="ganancias"
@@ -203,14 +240,14 @@ const Profile = () => {
                   >
                     Aplicar
                   </button>
-                </form>
 
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="w-full px-4 py-2 mt-4 font-bold text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none focus:shadow-outline"
-                >
-                  Cancelar
-                </button>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="w-full px-4 py-2 mt-4 font-bold text-white bg-red-500 rounded hover:bg-red-700 focus:outline-none focus:shadow-outline"
+                  >
+                    Cancelar
+                  </button>
+                </form>
               </div>
             </div>
           )}
