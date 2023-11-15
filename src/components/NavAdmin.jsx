@@ -115,11 +115,7 @@ const NavAdmin = () => {
             Profile
           </span>
         </Link>
-        <Link href="/client/home_client">
-          <span className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">
-            Signup
-          </span>
-        </Link>
+        <Logout />
       </div>
     </nav>
   );

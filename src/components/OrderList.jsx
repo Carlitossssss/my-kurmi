@@ -9,14 +9,15 @@ const OrderList = () => {
   const [orders, setOrders] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
-  const [fullOrder, setFullOrder] = useState(null);
+  //const [fullOrder, setFullOrder] = useState(null);
+
   
   async function openModal(order) {
     setSelectedOrder(order);
     setIsModalOpen(true);
 
     try {
-      const response = await fetch(urlApi + "/getOrderByFullId/" + order.id, {
+      const response = await fetch(urlApi + "/getOrderByFullId/" + order._id, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +25,8 @@ const OrderList = () => {
         },
       });
       const data = await response.json();
-      setFullOrder(data);
+      console.log(data);
+      setSelectedOrder(data);
     } catch (error) {
       console.log(error);
     }
@@ -64,12 +66,64 @@ const OrderList = () => {
   };
 
   const acceptOrder = () => {
-    // Aquí puedes agregar el código para aceptar la orden
+    fetch(urlApi + "/updateOrderById/" + selectedOrder._id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({ status: 3 }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        setSelectedOrder({ ...selectedOrder, status: 3 });
+      } else {
+        if (data.message) {
+          console.error('Error updating order:', data.message);
+        } else {
+          console.error('Error updating order: No error message received');
+        }
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
     closeModal();
   };
 
+  const cancelOrder = () => {
+    fetch(urlApi + "/updateOrderById/" + selectedOrder._id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({ status: 4 }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        setSelectedOrder({ ...selectedOrder, status: 4 });
+      } else {
+        if (data.message) {
+          console.error('Error updating order:', data.message);
+        } else {
+          console.error('Error updating order: No error message received');
+        }
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
+    closeModal();
+  };
+
+  
   const askQuestion = () => {
-    // Aquí puedes agregar el código para hacer una pregunta
+    alert(`Número de teléfono del cliente: ${selectedOrder.client.phone}`);
     closeModal();
   };
   function getColorClass(status) {
@@ -115,7 +169,7 @@ const OrderList = () => {
           <p className="text-blue-600">Estado: {getStatusText(order.status)}</p>
         </div>
       ))}
-      {fullOrder && (
+      {selectedOrder && (
         <Transition appear show={isModalOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -137,28 +191,69 @@ const OrderList = () => {
                   as="h3"
                   className="text-lg md:text-xl font-medium leading-6 text-gray-900"
                 >
-                  {fullOrder && fullOrder.client ? `Order ${fullOrder.client.name}` : "Loading..."}
+                  <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-2xl font-bold mb-4">Cliente</h1>
+                    {selectedOrder && selectedOrder.client ? (
+                      <p className="text-xl">{` ${selectedOrder.client.name} ${selectedOrder.client.last_names}`}</p>
+                    ) : (
+                      <p className="text-xl">Loading...</p>
+                    )}
+
+                    <div className="border-t w-full my-4 bg-black "></div>
+                  </div>
                 </Dialog.Title>
 
                 <div className="mt-2">
-                  {/* Aquí puedes agregar más campos de la orden y del cliente como se muestra arriba */}
+                  <div className="mt-2 bg-gray-100 p-4 rounded shadow">
+                    {selectedOrder &&
+                    selectedOrder.products &&
+                    selectedOrder.products.length > 0 ? (
+                      selectedOrder.products.map((product, index) => (
+                        <div
+                          key={index}
+                          className="flex justify-between items-center border-b border-gray-200 py-2"
+                        >
+                          <span className="text-xl font-semibold">
+                            {product.product.name}
+                          </span>
+                          <span className="text-lg">{`Cantidad: ${product.quantity}`}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-xl">No products</p>
+                    )}
+                  </div>
+                  <div className="mt-2 p-4 bg-blue-200 rounded shadow text-left w-3/6 ml-auto">
+                    {selectedOrder && selectedOrder.total ? (
+                      <p className="text-2xl font-bold">{`Total: ${selectedOrder.total} Bs.`}</p>
+                    ) : (
+                      <p className="text-xl">Loading...</p>
+                    )}
+                  </div>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 space-x-4 flex flex-wrap justify-center">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 w-full sm:w-auto"
                     onClick={acceptOrder}
                   >
                     Aceptar orden
                   </button>
                   <button
+                    className="px-4 py-2 bg-red-500 text-white rounded shadow w-full sm:w-auto mt-4 sm:mt-0"
+                    onClick={cancelOrder}
+                  >
+                    Cancelar orden
+                  </button>
+                  <button
                     type="button"
-                    className="ml-4 inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500 w-full sm:w-auto mt-4 sm:mt-0"
                     onClick={askQuestion}
                   >
                     Preguntar
                   </button>
+                  
                 </div>
               </div>
             </div>

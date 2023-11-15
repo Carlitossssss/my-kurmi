@@ -1,15 +1,26 @@
 "use client";
 import '../app/global.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Search from './Search';
+import Logout from './Logout';
 
 const NavClient = () => {
+    const [token, setToken] = useState(null);
+    const [role, setRole] = useState(null);
+
+    useEffect(() => {
+        setToken(localStorage.getItem('token'));
+        setRole(localStorage.getItem('role'));
+    }, []);
+
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleMobileMenuButtonClick = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
+
+    
 
     return (
         <nav className=" m-4 bg-gray-300">
@@ -32,25 +43,32 @@ const NavClient = () => {
                             <Link href="/client/home_client" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</span>
                             </Link>
-                            <Link href="/client/list_order" >
-                                <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Ordenes</span>
-                            </Link>
-                            <Link href="/client/cart" >
-                                <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Carrito</span>
-                            </Link>
+                            {token && role === 'client' && (
+                                <>
+                                    <Link href="/client/list_order">
+                                        <span className="block py-2 px-4 text-sm hover:bg-gray-200">Ordenes</span>
+                                    </Link>
+                                    <Link href="/client/cart">
+                                        <span className="block py-2 px-4 text-sm hover:bg-gray-200">Carrito</span>
+                                    </Link>
+                                </>
+                            )}
                             
                         </div>
                     </div>
 
-                    <div className="hidden md:flex items-center space-x-1">
-                        <Link href="/auth/login" >
-                            <span className="py-5 px-3">Login</span>
-                        </Link>
-                        <Link href="/auth/register_client" >
-                            <span className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">Register</span>
-                        </Link>
-                    </div>
-
+                    {!token ? (
+                        <div className="hidden md:flex items-center space-x-1">
+                            <Link href="/auth/login">
+                                <span className="py-5 px-3">Login</span>
+                            </Link>
+                            <Link href="/auth/register_client">
+                                <span className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">Register</span>
+                            </Link>
+                        </div>
+                    ) : (
+                        <Logout />
+                    )}
                     <div className="md:hidden flex items-center">
                         <button className="mobile-menu-button" onClick={handleMobileMenuButtonClick}>
                             <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,15 +81,31 @@ const NavClient = () => {
             </div>
 
             <div className={`mobile-menu ${isMobileMenuOpen ? '' : 'hidden'} md:hidden`}>
-                <Link href="/client/home_client" >
-                    <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</span>
+                <Link href="/client/home_client">
+                    <span className="py-5 px-3 text-gray-700 hover:text-gray-900 block">Home</span>
                 </Link>
-                <Link href="/client/list_order">
-                    <span className="block py-2 px-4 text-sm hover:bg-gray-200">Ordenes</span>
-                </Link>
-                <Link href="/client/cart">
-                    <span className="block py-2 px-4 text-sm hover:bg-gray-200">Carrito</span>
-                </Link>
+                {token && role === 'client' && (
+                    <>
+                        <Link href="/client/list_order">
+                            <span className="block py-2 px-4 text-sm hover:bg-gray-200">Ordenes</span>
+                        </Link>
+                        <Link href="/client/cart">
+                            <span className="block py-2 px-4 text-sm hover:bg-gray-200">Carrito</span>
+                        </Link>
+                    </>
+                )}
+                {!token ? (
+                    <div className="flex items-center space-x-1">
+                        <Link href="/auth/login">
+                            <span className="py-5 px-3 block">Login</span>
+                        </Link>
+                        <Link href="/auth/register_client">
+                            <span className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300 block">Register</span>
+                        </Link>
+                    </div>
+                ) : (
+                    <Logout />
+                )}
             </div>
         </nav>
     );

@@ -2,6 +2,7 @@
 import '../app/global.css';
 import { useState } from 'react';
 import Link from 'next/link';
+import Logout from './Logout';
 
 const NavProducer = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -32,6 +33,7 @@ const NavProducer = () => {
                             <Link href="/producer/pending_orders" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Ventas</span>
                             </Link>
+                            <Logout />
                         </div>
                     </div>
 
@@ -52,13 +54,14 @@ const NavProducer = () => {
                 </div>
             </div>
 
-            <div className={`mobile-menu ${isMobileMenuOpen ? '' : 'hidden'} md:hidden`}>
+            <div className={`mobile-menu ${isMobileMenuOpen ? '' : 'hidden'} md:hidden p-4 bg-white`}>
                 <Link href="/features">
-                    <span className="block py-2 px-4 text-sm hover:bg-gray-200">Home</span>
+                    <span className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900">Home</span>
                 </Link>
-                <Link href="/producer/pending_orders" >
-                    <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Ventas</span>
+                <Link href="/producer/pending_orders">
+                    <span className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900">Ventas</span>
                 </Link>
+                <Logout />
             </div>
         </nav>
     );
