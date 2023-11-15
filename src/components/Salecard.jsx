@@ -40,13 +40,15 @@ export default function ProductCard(props) {
 
 
         const fetchSales = async () => {
-            const sales = await filterdProductProducer();
-            setSales(sales);
-
-            const newTotalSum = sales.reduce((sum, product) => {
+            const saless = await filterdProductProducer(); // await the promise
+        
+            // Calculate total sum using the fetched sales data
+            const newTotalSum = saless.reduce((sum, product) => {
                 return sum + product.product.price * product.quantity;
             }, 0);
-
+        
+            // Then set state with the fetched data and calculated sum
+            setSales(saless);
             setTotalSum(newTotalSum);
         };
 
@@ -65,7 +67,7 @@ export default function ProductCard(props) {
                 </div>
                 <div className="table-row-group">
                     {sales.map((prod) => (
-                        <div className="table-row" key={1}>
+                        <div className="table-row" key={prod.product.id}>
                             <div className="table-cell p-3 text-center bg-lime-200">{prod.product.name}</div>
                             <div className="table-cell p-3 text-center">{prod.quantity} u.</div>
                             <div className="table-cell p-3 text-center bg-lime-200">Bs. {prod.product.price * prod.quantity}.00</div>
