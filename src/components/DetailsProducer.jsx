@@ -35,6 +35,33 @@ const DetailsProducer = ({_id}) => {
         getlistProductId();
     }, [id]);
 
+    const deleteProduct = async (id) => {
+  
+      try {
+          const res = await fetch(`${urlApi}/deleteProduct/${id}`, {
+              method: "DELETE",
+              headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + localStorage.getItem("token"), // Asegúrate de que el token es el correcto
+              },
+          });
+  
+          const result = await res.json();
+          if (res.ok) {
+              window.location.href = '/admin/list_producer_home';
+              // Aquí podrías redirigir al usuario o cerrar el modal de edición, por ejemplo
+          } else {
+              // Manejar los errores de la respuesta
+              console.error("Error al eliminar el producto:", result.message);
+              // Aquí podrías mostrar un mensaje de error al usuario
+          }
+      } catch (error) {
+          // Manejar errores de la solicitud
+          console.error("Error al enviar la solicitud de actualización del producto:", error);
+          // Aquí podrías mostrar un mensaje de error al usuario
+      }
+  };
+
 
   return (
     <div className="flex  flex-col justify-center  space-y-10 w-full mx-auto mb-16">
@@ -111,20 +138,20 @@ const DetailsProducer = ({_id}) => {
                 <div className="flex justify-between items-center ">
                   <Link
                     className="m-2 "
-                    href={`/client/detalis_product/${_id}`}
+                    href={`/admin/edit_product/${product._id}`}
                   >
                     <span className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">
                       Editar
                     </span>
                   </Link>
-                  <Link
+                  <button
                     className="m-2 "
-                    href={`/client/detalis_product/${_id}`}
+                    onClick={() => deleteProduct(product._id)}
                   >
                     <span className="py-2 px-3 bg-red-400 hover:bg-red-300 text-red-900 hover:text-red-800 rounded transition duration-300">
                       Eliminar
                     </span>
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
