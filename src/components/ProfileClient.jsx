@@ -17,7 +17,7 @@ const Profile = () => {
     setRole(localStorage.getItem("role"));
 
     const auth = () => {
-      if (token && (role === "client" || role === "producer" || role === "admin")) {
+      if (token && (role === "client")) {
         setAuth(true);
       } else {
         setAuth(false);
@@ -28,7 +28,7 @@ const Profile = () => {
       return;
     }
 
-    if (typeof window !== 'undefined') {
+    if (typeof window === 'undefined') {
       if (!Array.isArray(user)) {
         window.location.href = "/not-found";
         return;

@@ -19,7 +19,7 @@ export default function ProductCard(props) {
         setRole(localStorage.getItem('role'));
 
         const auth = () => {
-            if (token && (role === 'producer' || role === 'client')) {
+            if (token && (role === 'producer')) {
                 setAuth(true);
             }
             else {
@@ -31,9 +31,11 @@ export default function ProductCard(props) {
             return;
         }
 
-        if (!Array.isArray(props.sales)) {
-            window.location.href = "/not-found";
-            return;
+        if (typeof window === 'undefined') {
+            if (!Array.isArray(user)) {
+                window.location.href = "/not-found";
+                return;
+            }
         }
 
 
