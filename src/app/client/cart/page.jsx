@@ -13,7 +13,7 @@ export default function Cart() {
             <div className="md:flex md:space-x-4 md:items-start">
                 <div className="mt-2 flex flex-col md:w-5/6">
                     <CartProduct />
-                    <Link href="/"
+                    <Link href="/client/home_client"
                         className="bg-lime-800 p-3 w-48 text-center rounded-lg font-bold hover:bg-lime-700 text-white mt-6">
                         Seguir Comprando
                     </Link>

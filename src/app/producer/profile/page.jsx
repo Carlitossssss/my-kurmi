@@ -1,8 +1,8 @@
-
-export default function ProfilePage() {
+import Profile from "@/components/ProfileClient"
+export default function AdminPage() {
     return (
         <div>
-        <h1>Profile Page</h1>
+            <Profile />
         </div>
     )
 }

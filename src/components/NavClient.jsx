@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Search from './Search';
 import Logout from './Logout';
+import { FaUser } from 'react-icons/fa';
 
 const NavClient = () => {
     const [token, setToken] = useState(null);
@@ -20,7 +21,7 @@ const NavClient = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
-    
+
 
     return (
         <nav className=" m-4 bg-gray-300">
@@ -39,6 +40,9 @@ const NavClient = () => {
                         </div>
                         <Search />
 
+
+
+
                         <div className="hidden md:flex items-center space-x-1">
                             <Link href="/client/home_client" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</span>
@@ -53,7 +57,7 @@ const NavClient = () => {
                                     </Link>
                                 </>
                             )}
-                            
+
                         </div>
                     </div>
 
@@ -67,8 +71,17 @@ const NavClient = () => {
                             </Link>
                         </div>
                     ) : (
-                        <Logout />
+                        <div className="hidden md:flex items-center space-x-1">
+                            <Link
+                                href="/admin/profile"
+                                className="m-4 text-blue-500 hover:text-blue-700"
+                            >
+                                <FaUser />
+                            </Link>
+                            <Logout />
+                        </div>
                     )}
+
                     <div className="md:hidden flex items-center">
                         <button className="mobile-menu-button" onClick={handleMobileMenuButtonClick}>
                             <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -104,10 +117,17 @@ const NavClient = () => {
                         </Link>
                     </div>
                 ) : (
-                    <Logout />
+                    <div className='flex'>
+                        <Link href="/client/profile">
+                            <span className="block py-2 px-4 text-sm hover:bg-gray-200">
+                                Profile
+                            </span>
+                        </Link>
+                        <Logout />
+                    </div>
                 )}
             </div>
-        </nav>
+        </nav >
     );
 };
 

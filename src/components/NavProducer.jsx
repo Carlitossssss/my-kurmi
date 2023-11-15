@@ -3,6 +3,7 @@ import '../app/global.css';
 import { useState } from 'react';
 import Link from 'next/link';
 import Logout from './Logout';
+import { FaUser } from 'react-icons/fa';
 
 const NavProducer = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,21 +28,24 @@ const NavProducer = () => {
                             </Link>
                         </div>
                         <div className="hidden md:flex items-center space-x-1">
-                            <Link href="/features" >
+                            <Link href="/producer/home_producer" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</span>
                             </Link>
                             <Link href="/producer/pending_orders" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Ventas</span>
                             </Link>
-                            <Logout />
                         </div>
                     </div>
 
                     <div className="hidden md:flex items-center space-x-1">
-                        <Link href="/signup" >
-                            <span className="py-2 px-3 bg-yellow-400 hover:bg-yellow-300 text-yellow-900 hover:text-yellow-800 rounded transition duration-300">Signup</span>
-                        </Link>
-                    </div>
+                            <Link
+                                href="/producer/profile"
+                                className="m-4 text-blue-500 hover:text-blue-700"
+                            >
+                                <FaUser />
+                            </Link>
+                            <Logout />
+                        </div>
 
                     <div className="md:hidden flex items-center">
                         <button className="mobile-menu-button" onClick={handleMobileMenuButtonClick}>
@@ -55,13 +59,20 @@ const NavProducer = () => {
             </div>
 
             <div className={`mobile-menu ${isMobileMenuOpen ? '' : 'hidden'} md:hidden p-4 bg-white`}>
-                <Link href="/features">
+                <Link href="/producer/home_producer">
                     <span className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900">Home</span>
                 </Link>
                 <Link href="/producer/pending_orders">
                     <span className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-200 hover:text-gray-900">Ventas</span>
                 </Link>
-                <Logout />
+                <div>
+                        <Link href="/client/profile">
+                            <span className="block py-2 px-4 text-sm hover:bg-gray-200">
+                                Profile
+                            </span>
+                        </Link>
+                        <Logout />
+                    </div>
             </div>
         </nav>
     );
