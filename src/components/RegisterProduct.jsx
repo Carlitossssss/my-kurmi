@@ -7,6 +7,7 @@ import Image from "next/image";
 import Modal from "./Modal";
 
 
+
 const RegisterProduct = () => {
   const [availabilityDate, setAvailabilityDate] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,8 +26,7 @@ const RegisterProduct = () => {
   const [token, setToken] = useState(null);
   const [role, setRole] = useState(null);
   const [aauth, setAuth] = useState(true);
-
-  let producerId;
+  const [producerId, setProducerId] = useState(null);
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
@@ -94,20 +94,24 @@ const RegisterProduct = () => {
   };
 
   const registerProduct = async (e) => {
-    e.preventDefault();
-    const data = {
-      name,
-      description,
-      price,
-      stock,
-      unit,
-      //images: images.map((image) => image.split(",")[1]),
-      //solo guardar el nombre de la imagen
-      images: images.map((image) => image.split(",")[1].split("/")[3]),
-      type,
-      readyForSale:availabilityDate,
-      producer: producerId,
-    };
+  e.preventDefault();
+
+  if (!producerId) {
+    alert("Debe seleccionar un productor");
+    return;
+  }
+
+  const data = {
+    name,
+    description,
+    price,
+    stock,
+    unit,
+    images: images.length > 0 ? images.map((image) => image.split(",")[1].split("/")[3]) : ["image.jpg", "image2.jpg"],
+    type,
+    readyForSale:availabilityDate,
+    producer: producerId,
+  };
     console.log(data);
     const res = await fetch(urlApi + "/createProduct", {
       method: "POST",
@@ -315,11 +319,9 @@ const RegisterProduct = () => {
                     .map((producer, index) => (
                       <div
                         key={index}
-                        className={`p-4 ${
-                          index % 2 === 0 ? "bg-gray-100" : ""
-                        }`}
+                        className={`p-4 ${index % 2 === 0 ? "bg-gray-100" : ""}`}
                         onClick={() => {
-                          producerId = producer._id;
+                          setProducerId(producer._id);
                           setIsProducerModalOpen(false);
                         }}
                       >
