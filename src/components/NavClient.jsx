@@ -43,16 +43,12 @@ const NavClient = () => {
                             <Link href="/client/home_client" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</span>
                             </Link>
-                            {token && role === 'client' && (
-                                <>
-                                    <Link href="/client/list_order">
-                                        <span className="block py-2 px-4 text-sm hover:bg-gray-200">Ordenes</span>
-                                    </Link>
-                                    <Link href="/client/cart">
-                                        <span className="block py-2 px-4 text-sm hover:bg-gray-200">Carrito</span>
-                                    </Link>
-                                </>
-                            )}
+                            <Link href="/client/list_order" >
+                                <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Ordenes</span>
+                            </Link>
+                            <Link href="/client/cart" >
+                                <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Carrito</span>
+                            </Link>
                             
                         </div>
                     </div>

@@ -8,6 +8,13 @@ export const addArrProductsCart = async (product, quantity) => {
     arr_prod_card.push({ 'product': product, 'quantity': quantity })
 }
 
+export const removeProductFromCart = (productToRemove) => {
+    const index = arr_prod_card.findIndex((product) => product.product.id === productToRemove.id);
+    if (index > -1) {
+        arr_prod_card.splice(index, 1);
+    }
+};
+
 export const createOrder = async () => {
     const response = await fetch(urlApi + '/createOrder/', {
         method: 'POST',
@@ -75,8 +82,6 @@ export const updateStock = async (id, quantity) => {
 
 var isCreated = false
 var idOrder
-// el estado 1 es de los productos que han sido agregados al carrito
-// pero no han sido procesados
 
 export const getProductCart = async () => {
     arr_prod_card.length = 0

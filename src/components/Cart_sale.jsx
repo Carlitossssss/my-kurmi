@@ -1,9 +1,25 @@
 'use client'
+import { useState, useEffect } from 'react'
 import {arr_prod_card} from '@/config/addCart'
 
 export default function CartSale(params) {
-    const arr = arr_prod_card
-    const subtotal = arr.reduce((total, item) => total + (item.product.price * item.quantity), 0)
+    const [subtotal, setSubtotal] = useState(calculateSubtotal());
+
+    function calculateSubtotal() {
+        return arr_prod_card.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+    }
+
+    useEffect(() => {
+      const updateSubtotal = () => {
+        setSubtotal(calculateSubtotal());
+      };
+
+      window.addEventListener('cartChanged', updateSubtotal);
+
+      return () => {
+        window.removeEventListener('cartChanged', updateSubtotal);
+      };
+    }, []);
 
     return (
         <div className="table w-full border-t-2 border-lime-500 rounded-lg shadow-2xl shadow-lime-900/50">

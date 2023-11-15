@@ -1,8 +1,8 @@
-
+import ProducerDashboard from "@/components/ProducerDashboard"
 export default function DashboardPage() {
     return (
         <div>
-        <h1>Dashboard Page</h1>
+            <ProducerDashboard/>
         </div>
     )
 }

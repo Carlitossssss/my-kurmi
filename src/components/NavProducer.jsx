@@ -27,7 +27,7 @@ const NavProducer = () => {
                             </Link>
                         </div>
                         <div className="hidden md:flex items-center space-x-1">
-                            <Link href="/features" >
+                            <Link href="/producer/dashboard" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</span>
                             </Link>
                             <Link href="/producer/pending_orders" >
