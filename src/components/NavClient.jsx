@@ -20,7 +20,7 @@ const NavClient = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
-    
+
 
     return (
         <nav className=" m-4 bg-gray-300">
@@ -39,20 +39,27 @@ const NavClient = () => {
                         </div>
                         <Search />
 
-                        <div className="hidden md:flex items-center space-x-1">
+                       
+
+
+                    <div className="hidden md:flex items-center space-x-1">
                             <Link href="/client/home_client" >
                                 <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Home</span>
                             </Link>
-                            <Link href="/client/list_order" >
-                                <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Ordenes</span>
-                            </Link>
-                            <Link href="/client/cart" >
-                                <span className="py-5 px-3 text-gray-700 hover:text-gray-900">Carrito</span>
-                            </Link>
-                            
+                            {token && role === 'client' && (
+                                <>
+                                    <Link href="/client/list_order">
+                                        <span className="block py-2 px-4 text-sm hover:bg-gray-200">Ordenes</span>
+                                    </Link>
+                                    <Link href="/client/cart">
+                                        <span className="block py-2 px-4 text-sm hover:bg-gray-200">Carrito</span>
+                                    </Link>
+                                </>
+                            )}
+                           
                         </div>
                     </div>
-
+ 
                     {!token ? (
                         <div className="hidden md:flex items-center space-x-1">
                             <Link href="/auth/login">
@@ -65,6 +72,7 @@ const NavClient = () => {
                     ) : (
                         <Logout />
                     )}
+       
                     <div className="md:hidden flex items-center">
                         <button className="mobile-menu-button" onClick={handleMobileMenuButtonClick}>
                             <svg className="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -103,7 +111,7 @@ const NavClient = () => {
                     <Logout />
                 )}
             </div>
-        </nav>
+        </nav >
     );
 };
 
