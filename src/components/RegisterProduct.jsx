@@ -24,6 +24,7 @@ const RegisterProduct = () => {
 
   const [token, setToken] = useState(null);
   const [role, setRole] = useState(null);
+  const [aauth, setAuth] = useState(true);
 
   let producerId;
 
@@ -33,16 +34,16 @@ const RegisterProduct = () => {
 
     const auth = () => {
       if (token && role === "admin") {
-        return true;
+        setAuth(true);
       } else {
-        return false;
+        setAuth(false);
       }
     };
-    if (!auth()) {
+    if (aauth === false) {
       window.history.back();
       return; // Detiene la ejecución de las funciones siguientes
     }
-  }, [token, role]);
+  }, [token, role, aauth]);
 
 
   

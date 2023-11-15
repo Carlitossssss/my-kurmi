@@ -9,8 +9,33 @@ export default function ProductCard(props) {
 
     const [sales, setSales] = useState([])
     const [totalSum, setTotalSum] = useState(0);
+    const [token, setToken] = useState(null);
+    const [role, setRole] = useState(null);
+    const [aauth, setAuth] = useState(true);
 
     useEffect(() => {
+
+        setToken(localStorage.getItem('token'));
+        setRole(localStorage.getItem('role'));
+
+        const auth = () => {
+            if (token && (role === 'producer' || role === 'client')) {
+                setAuth(true);
+            }
+            else {
+                setAuth(false);
+            }
+        }
+        if (aauth === false) {
+            window.history.back();
+            return;
+        }
+
+        if (!Array.isArray(props.sales)) {
+            window.location.href = "/not-found";
+            return;
+        }
+
 
         const fetchSales = async () => {
             const sales = await filterdProductProducer();
@@ -24,7 +49,7 @@ export default function ProductCard(props) {
         };
 
         fetchSales();
-    }, []);
+    }, [aauth, props.sales, role, token]);
 
     return (
         <div>

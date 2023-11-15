@@ -8,19 +8,22 @@ const DetailsProducer = ({ _id }) => {
   const id = _id;
   const [producer, setProducer] = useState({});
   const [listProductId, setlistProductId] = useState([]);
-
-  const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
+  const [token, setToken] = useState(null);
+  const [role, setRole] = useState(null);
+  const [aauth, setAuth] = useState(true);
 
   useEffect(() => {
+
+    setToken(localStorage.getItem("token"));
+    setRole(localStorage.getItem("role"));
     const auth = () => {
       if (token && role === "admin") {
-        return true;
+        setAuth(true);
       } else {
-        return false;
+        setAuth(false);
       }
     };
-    if (!auth()) {
+    if (aauth === false) {
       window.history.back();
       return;
     }
@@ -73,7 +76,7 @@ const DetailsProducer = ({ _id }) => {
 
     getProducer();
     getlistProductId();
-  }, [id, role, token]);
+  }, [aauth, id, role, token]);
 
   if (!Array.isArray(listProductId)) {
     window.location.href = "/not-found";

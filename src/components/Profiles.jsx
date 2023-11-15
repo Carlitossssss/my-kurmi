@@ -12,6 +12,7 @@ const Profile = () => {
 
   const [token, setToken] = useState(null);
   const [role, setRole] = useState(null);
+  const [aauth, setAuth] = useState(true);
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
@@ -19,12 +20,12 @@ const Profile = () => {
 
     const auth = () => {
       if (token && (role === "admin" || role === "producer" || role === "client")) {
-        return true;
+        setAuth(true);
       } else {
-        return false;
+        setAuth(false);
       }
     };
-    if (!auth()) {
+    if (aauth === false) {
       window.history.back();
       return; // Detiene la ejecución de las funciones siguientes
     }
@@ -40,7 +41,7 @@ const Profile = () => {
       setLoading(false);
     };
     getUser();
-  }, [role, token]);
+  }, [aauth, role, token]);
 
   if (!Array.isArray(user)) {
     window.location.href = "/not-found";

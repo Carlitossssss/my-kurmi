@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 import "../app/layout";
 import React, { use } from "react";
@@ -23,6 +24,11 @@ const updateProduct = (props) => {
 
     const [isProducerModalOpen, setIsProducerModalOpen] = useState(false);
     const [searchValue, setSearchValue] = useState("");
+
+    const [token, setToken] = useState(null);
+    const [role, setRole] = useState(null);
+
+    const [aauth, setAuth] = useState(true);
 
     let producerId;
 
@@ -71,11 +77,16 @@ const updateProduct = (props) => {
         }
     };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchProductDetails = async () => {
         try {
             const res = await fetch(`${urlApi}/getProduct/${props._id}`, {
                 method: "GET",
-                // ...headers
+
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("token"),
+                },
             });
 
             if (!res.ok) {
@@ -101,8 +112,26 @@ const updateProduct = (props) => {
     };
 
     useEffect(() => {
+
         fetchProductDetails();
-    }, []);
+
+        setToken(localStorage.getItem("token"));
+        setRole(localStorage.getItem("role"));
+
+        const auth = () => {
+            if (token && role === "admin") {
+                setAuth(true);
+            } else {
+                setAuth(false);
+            }
+        }
+        if (aauth === false) {
+            window.history.back();
+            return;
+        }
+        
+
+    }, [aauth, fetchProductDetails, role, token]);
 
     const updateProduct = async () => {
         // Preparar los datos del producto para el envío

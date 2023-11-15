@@ -4,12 +4,31 @@ import {arr_prod_card} from '@/config/addCart'
 
 export default function CartSale(params) {
     const [subtotal, setSubtotal] = useState(calculateSubtotal());
+    const [token, setToken] = useState(null);
+    const [role, setRole] = useState(null);
+    const [aauth, setAuth] = useState(true);
 
     function calculateSubtotal() {
         return arr_prod_card.reduce((total, item) => total + (item.product.price * item.quantity), 0);
     }
 
     useEffect(() => {
+        setToken(localStorage.getItem('token'));
+        setRole(localStorage.getItem('role'));
+
+        const auth = () => {
+            if (token && (role === 'producer' || role === 'client')) {
+                setAuth(true);
+            }
+            else {
+                setAuth(false);
+            }
+        }
+        if (aauth === false) {
+            window.history.back();
+            return;
+        }
+
       const updateSubtotal = () => {
         setSubtotal(calculateSubtotal());
       };
@@ -19,7 +38,7 @@ export default function CartSale(params) {
       return () => {
         window.removeEventListener('cartChanged', updateSubtotal);
       };
-    }, []);
+    }, [aauth, role, token]);
 
     return (
         <div className="table w-full border-t-2 border-lime-500 rounded-lg shadow-2xl shadow-lime-900/50">

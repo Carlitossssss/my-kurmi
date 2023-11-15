@@ -11,6 +11,7 @@ const OrderList = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [token, setToken] = useState(null);
   const [role, setRole] = useState(null);
+  const [aauth, setAuth] = useState(true);
 
 
 
@@ -43,12 +44,12 @@ const OrderList = () => {
 
     const auth = () => {
       if (token && role === "admin") {
-        return true;
+        setAuth(true);
       } else {
-        return false;
+        setAuth(false);
       }
     };
-    if (!auth()) {
+    if (aauth === false) {
       window.history.back();
       return; // Detiene la ejecución de las funciones siguientes
     }
@@ -75,7 +76,7 @@ const OrderList = () => {
     };
 
     fetchOrders();
-  }, [role, token]);
+  }, [aauth, role, token]);
 
   if (!Array.isArray(orders)) {
     window.location.href = "/not-found";

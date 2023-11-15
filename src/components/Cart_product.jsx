@@ -6,8 +6,29 @@ import {arr_prod_card, removeProductFromCart} from '@/config/addCart'
 export default function CartProduct(props) {
     
     const [cartProducts, setCartProducts] = useState([...arr_prod_card]);
+    const [token, setToken] = useState(null);
+    const [role, setRole] = useState(null);
+    const [aauth, setAuth] = useState(true);
 
     useEffect(() => {
+
+        setToken(localStorage.getItem('token'));
+        setRole(localStorage.getItem('role'));
+
+        const auth = () => {
+            if (token && (role === 'producer' || role === 'client')) {
+                setAuth(true);
+            }
+            else {
+                setAuth(false);
+            }
+        }
+        if (aauth === false) {
+            window.history.back();
+            return;
+        }
+
+
       const updateCart = () => {
         setCartProducts([...arr_prod_card]);
       };
@@ -15,7 +36,7 @@ export default function CartProduct(props) {
       return () => {
         window.removeEventListener('cartChanged', updateCart);
       };
-    }, []);
+    }, [aauth, role, token]);
 
     const handleRemove = (product) => {
         removeProductFromCart(product);

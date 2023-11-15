@@ -16,8 +16,28 @@ function getStatusDisplay(statusCode) {
 export default function Orders_P() {
 
     const [orders, setOrders] = useState([])
+    const [token, setToken] = useState(null);
+    const [role, setRole] = useState(null);
+    const [aauth, setAuth] = useState(true);
 
     useEffect(() => {
+
+        setToken(localStorage.getItem('token'));
+        setRole(localStorage.getItem('role'));
+
+        const auth = () => {
+            if (token && role === 'client') {
+                setAuth(true);
+            }
+            else {
+                setAuth(false);
+            }
+        }
+        if (aauth === false) {
+            window.history.back();
+            return;
+        }
+
         fetch(urlApi + '/getOrdersByClient', {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`

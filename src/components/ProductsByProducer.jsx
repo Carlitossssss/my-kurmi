@@ -6,8 +6,26 @@ import Image from "next/image";
 
 export default function ProductByProducer() {
     const [products, setProducts] = useState([]);
+    const [token, setToken] = useState(null);
+    const [role, setRole] = useState(null);
+    const [aauth, setAuth] = useState(true);
 
     useEffect(() => {
+        setToken(localStorage.getItem("token"));
+        setRole(localStorage.getItem("role"));
+
+        const auth = () => {
+            if (token && role === "producer") {
+                setAuth(true);
+            } else {
+                setAuth(false);
+            }
+        }
+        if (aauth === false) {
+            window.history.back();
+            return;
+        }
+
         const getProducerProducts = async () => {
             try {
                 const response = await fetch(urlApi + "/getProductsProducer", {
@@ -29,7 +47,7 @@ export default function ProductByProducer() {
         };
 
         getProducerProducts();
-    }, []);
+    }, [aauth, role, token]);
 
     // Ahora el console.log mostrará el estado después de que se actualice.
     useEffect(() => {

@@ -2,12 +2,14 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import urlApi from '@/config/globals_api';
+import { a } from 'react-spring';
 
 const ListProducer = () => {
     const [producer, setProducer] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [token, setToken] = useState(null);
     const [role, setRole] = useState(null);
+
+    const [aauth, setAuth] = useState(true);
 
   
 
@@ -18,14 +20,14 @@ const ListProducer = () => {
 
         const auth = () => {
             if (token && role === 'admin') {
-                return true;
+                setAuth(true);
             } else {
-                return false;
+                setAuth(false);
             }
         }
-        if (!auth()) {
+        if (aauth === false) {
             window.history.back();
-            return; // Detiene la ejecución de las funciones siguientes
+            return;
         }
 
         
@@ -39,10 +41,9 @@ const ListProducer = () => {
             });
             const producer = await response.json();
             setProducer(producer);
-            setLoading(false);
         };
         getProducer();
-    }, [role, token]);
+    }, [aauth, role, token]);
     if (!Array.isArray(producer)) {
     window.location.href = "/not-found";
     return;
