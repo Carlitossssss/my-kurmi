@@ -101,13 +101,15 @@ const RegisterProduct = () => {
     return;
   }
 
+  const img =["image.jpg", "image2.jpg"];
+
   const data = {
     name,
     description,
     price,
     stock,
     unit,
-    images: images.length > 0 ? images.map((image) => image.split(",")[1].split("/")[3]) : ["image.jpg", "image2.jpg"],
+    images: img.length > 0 ? img : [],
     type,
     readyForSale:availabilityDate,
     producer: producerId,

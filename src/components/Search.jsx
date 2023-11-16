@@ -2,6 +2,7 @@
 import '../app/global.css';
 
 const Search = () => {
+    
     return (
     <div className="m-4 max-w-md mx-auto">
         <div className="relative flex items-center w-full h-8 rounded-lg focus-within:shadow-lg bg-white overflow-hidden">
