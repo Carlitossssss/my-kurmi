@@ -12,6 +12,33 @@ const DetailsProducer = ({ _id }) => {
   const [role, setRole] = useState(null);
   const [aauth, setAuth] = useState(true);
 
+  const deleteProduct = async (id) => {
+
+    try {
+      const res = await fetch(`${urlApi}/deleteProduct/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"), // Asegúrate de que el token es el correcto
+        },
+      });
+
+      const result = await res.json();
+      if (res.ok) {
+        window.location.href = '/admin/list_producer_home';
+        // Aquí podrías redirigir al usuario o cerrar el modal de edición, por ejemplo
+      } else {
+        // Manejar los errores de la respuesta
+        console.error("Error al eliminar el producto:", result.message);
+        // Aquí podrías mostrar un mensaje de error al usuario
+      }
+    } catch (error) {
+      // Manejar errores de la solicitud
+      console.error("Error al enviar la solicitud de actualización del producto:", error);
+      // Aquí podrías mostrar un mensaje de error al usuario
+    }
+  };
+
   useEffect(() => {
 
     setToken(localStorage.getItem("token"));
@@ -27,32 +54,9 @@ const DetailsProducer = ({ _id }) => {
       window.history.back();
       return;
     }
-    const deleteProduct = async (id) => {
-  
-      try {
-          const res = await fetch(`${urlApi}/deleteProduct/${id}`, {
-              method: "DELETE",
-              headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + localStorage.getItem("token"), // Asegúrate de que el token es el correcto
-              },
-          });
-  
-          const result = await res.json();
-          if (res.ok) {
-              window.location.href = '/admin/list_producer_home';
-              // Aquí podrías redirigir al usuario o cerrar el modal de edición, por ejemplo
-          } else {
-              // Manejar los errores de la respuesta
-              console.error("Error al eliminar el producto:", result.message);
-              // Aquí podrías mostrar un mensaje de error al usuario
-          }
-      } catch (error) {
-          // Manejar errores de la solicitud
-          console.error("Error al enviar la solicitud de actualización del producto:", error);
-          // Aquí podrías mostrar un mensaje de error al usuario
-      }
-  };
+
+    
+    
 
 
     const getProducer = async () => {
